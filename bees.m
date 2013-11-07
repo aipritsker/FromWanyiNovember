@@ -70,9 +70,9 @@ survivorship(44:agemax,1)= (1-v)*st6^(1/17); % v is reversed probability of the 
 theta = rt*ones(agemax-1,1); % theta = probabilities of retarded development at each stage
 A = (diag(1-theta,-1)+diag([0;theta]))*diag(survivorship);% The matrix for storing all the survial rate of bees at each age. 
 B=zeros(agemax);% the precocious development of nurse bees 
-B(49,22:33)=u*ones(1,16);
+B(49,22:33)=u*ones(1,12);
 C=zeros(agemax);
-C(27,44:agemax)= v*ones(1,12); % the retarded development of forager bees 
+C(27,44:agemax)= v*ones(1,1); % the retarded development of forager bees 
 transit=A+B+C; 
 %%%Model pesticide intervention 
 
@@ -131,15 +131,17 @@ storedfood = max( 0, min([PollenForager*0.48,Vt+vacated+scavangedcells-R]));% po
 % The daily processing of nectar into honey, a process that concentrates the nectar and thereby reduces the volume (as defined by the constant RATIOnectar to honey).
 if stage (5)<=1
    storedhoney=0;
+   disp('no honey was stored')
+   disp(date)
 else 
-predictedhoney =0.4* interp2(hsurfX,hsurfY,hsurf,0.8*stage(5),stage(6)-PollenForager);% The processing factor of nectar into honey is 0.4.  
-storedhoney= max( 0, min([predictedhoney, Vt+vacated+scavangedcells-R-storedfood])); % Nectar Input by the nectar foraging ODE model 
+    predictedhoney =0.4* interp2(hsurfX,hsurfY,hsurf,0.8*stage(5),stage(6)-PollenForager);% The processing factor of nectar into honey is 0.4.  
+    storedhoney= max( 0, min([predictedhoney, Vt+vacated+scavangedcells-R-storedfood])); % Nectar Input by the nectar foraging ODE model 
 end   
     
    
 %% Pollen, Honey, Cells net input 
-Pt1 = max(0, Pt- foodeaten + storedfood); % The net pollen storage at the end of the day 
-Ht1= Ht-honeyeaten+storedhoney; % The net honey storage at the end of the day. 
+Pt1 = max(0, Pt - foodeaten + storedfood); % The net pollen storage at the end of the day 
+Ht1 = Ht-honeyeaten+storedhoney; % The net honey storage at the end of the day. 
 Vt1 = max(0, Vt +vacated - R -storedfood-storedhoney+ scavangedcells); % The net vacant cells 
 Nt1(1) = R; 
 
