@@ -97,8 +97,8 @@ vacated = Nt(26) + foodeaten+honeyeaten;% Empty Cells due to the cleaned food ce
 if stage(4)+stage(5)+stage(6)<= 0 % the minimum requirement of number of bees needed to be around a queen bee 
  R=0;
  else 
-%R = max(0, min([qh*maxProduction,(stage(4)+stage(5))*FactorBroodNurse,Vt+vacated+scavangedcells]));% The actural egg production per day depends on the queen egg laying potential, the nursing workforce and the available hive space
-R = max(0, min([qh*maxProduction,(stage(4)+stage(5))*FactorBroodNurse]));
+R = max(0, min([qh*maxProduction,(stage(4)+stage(5))*FactorBroodNurse,Vt+vacated+scavangedcells]));% The actural egg production per day depends on the queen egg laying potential, the nursing workforce and the available hive space
+%R = max(0, min([qh*maxProduction,(stage(4)+stage(5))*FactorBroodNurse]));
 %R = max(0, min(Vt+vacated+scavangedcells,qh*maxProduction));
 %R  =max(0, min(Vt+vacated+scavangedcells, qh*2000));
 %R= qh*maxProduction; 
@@ -113,17 +113,9 @@ end
 PollenNeed=max(0,(a1*stage(1)+a2*stage(2)+a4*stage(4)+a5*stage(5))*Factorstore-Pt); % 
 NeedPollenForager=PollenNeed/0.48;
 %PollenForager=max(stage(6)*0.01, min(NeedPollenForager,stage(6)*0.33));
- PollenForager=min(stage(6),max(stage(6)*0.01, NeedPollenForager));
-% Weidenmu¨ ller and Tautz (2002) showed that in times of different pollen need, the colony responds with a different number of pollen foragers but does not change the overall flight activity or the total number of all foragers (pollen and nectar). 
-% 0.48 is the pollen collected each day each forager, based on the amount
-% of pollen collected per foraging trip(0.06 cellful pollen,Camazine et
-% al., 1990), the average foraging trips performed per forager per day(10 trips per day) and the stochastic factor for each pollen
-% forager to make a successful foraging trip(80%). 
-% In nature, there is always a certain minimum number of pollen foragers
-% within the cohort of foragers (1% forager will have the preference to
-% make pollen foraging), even when there is almost no pollen need (personal
-% observation). The maximum number of pollen foragers is 33% of the current
-% cohort of foragers. 
+
+PollenForager=min(stage(6),max(stage(6)*0.01, NeedPollenForager));
+
 storedfood = max( 0, min([PollenForager*0.48,Vt+vacated+scavangedcells-R]));% pollen storage depends on the available cells in the hive, the foraging collection efficiency of the pollen forager---assumption for pollen foraging behavior
 
 %% Honey dynamics-field season 
@@ -143,6 +135,10 @@ end
 Pt1 = max(0, Pt - foodeaten + storedfood); % The net pollen storage at the end of the day 
 Ht1 = Ht-honeyeaten+storedhoney; % The net honey storage at the end of the day. 
 Vt1 = max(0, Vt +vacated - R -storedfood-storedhoney+ scavangedcells); % The net vacant cells 
+if Vt1 == 0
+    disp('ran out of space')
+    disp(date)
+end
 Nt1(1) = R; 
 
 nextstate = [ Vt1; Pt1; Ht1; R; Nt1 ];  
