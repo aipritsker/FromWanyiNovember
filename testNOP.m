@@ -163,15 +163,15 @@ N = zeros(agemax,1);
 
 N(1:3)=100;
 
-N(4:11)=100;
+N(4:9)=100;
 
-N(12:26)=300;
+N(10:21)=300;
 
-N(27:42)=300;
+N(22:33)=300;
 
-N(43:48)=300;
+N(34:43)=300;
 
-N(49:agemax)=300;
+N(44:agemax)=300;
 
 X = [ V0; P0; H0;R0; N ];
 
@@ -269,17 +269,17 @@ for T = 0:(numyears-1)
 
 	W = zeros(4,agemaxwinter);
 
-	W(1,1:3)=1; W(2,4:11)=1; W(3,12:26)=1; W(4,27:agemaxwinter)=1;
+	W(1,1:3)=1; W(2,4:9)=1; W(3,10:21)=1; W(4,22:agemaxwinter)=1;
 
 	N = zeros(agemaxwinter,1);
 
 	N(1:3)=res(1,summerdays)/3;
 
-	N(4:11)=res(2,summerdays)/8;
+	N(4:9)=res(2,summerdays)/6;
 
-	N(12:26)=res(3,summerdays)/15;
+	N(10:21)=res(3,summerdays)/12;
 
-	N(27:agemaxwinter)=(res(4,summerdays)+res(5,summerdays)+res(6,summerdays))/100;
+	N(22:agemaxwinter)=(res(4,summerdays)+res(5,summerdays)+res(6,summerdays))/(agemaxwinter-22+1);
 
 	P0 = P(1,summerdays);
 
@@ -343,15 +343,15 @@ for T = 0:(numyears-1)
 
 	N(1:3)=pop(1,yeardays*(T+1))/3;
 
-	N(4:11)=pop(2,yeardays*(T+1))/8;
+	N(4:9)=pop(2,yeardays*(T+1))/6;
 
-	N(12:26)=pop(3,yeardays*(T+1))/15;
+	N(10:21)=pop(3,yeardays*(T+1))/12;
 
-	N(27:42)= pop(4,yeardays*(T+1))/34;
+	N(22:32)= pop(4,yeardays*(T+1))/39;
 
-	N(43:48)= pop(4,yeardays*(T+1))/34 ;
+	N(33:42)= pop(4,yeardays*(T+1))/39 ;
 
-	N(49:agemax)=pop(4,yeardays*(T+1))/34;
+	N(43:agemax)=pop(4,yeardays*(T+1))/39;
 
 	P0 = Ppop(1,yeardays*(T+1));
 
