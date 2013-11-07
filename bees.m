@@ -18,11 +18,11 @@ global hsurfX hsurfY hsurf; % the interpolated surface of NectarODE and honeycol
  %% Stage Structure for field season bees-normal cycle: nonlinearities.1=egg,2=larvae,3=pupae,4=nurse,5=house,6=forager
 s = zeros(6,agemax);
 s(1,1:3)=1;% 
-s(2,4:11)=1;
-s(3,12:26)=1;
-s(4,27:42)=1;
-s(5,43:48)=1;
-s(6,49:agemax)=1;
+s(2,4:9)=1;
+s(3,10:21)=1;
+s(4,22:33)=1;
+s(5,34:43)=1;
+s(6,43:agemax)=1;
 
 %% Current conditions in bee hive %%%%%%%%
 Vt = state(1); % vacant cells 
@@ -48,31 +48,31 @@ IndexNurseload=max(0,(stage(2)+stage(1))*FactorBroodNurse/(stage(4)+1)); % the n
 survivorship = zeros(agemax,1);
 survivorship(1:3)= st1^(1/3); % the daily survival rate of egg stage at age(i=1-3) 
 survivorship(3:4)=tel*survivorship(2);% stage transitional rate 
-survivorship(4:11) = (st2*min(1,max(0,1-0.15*(1-Indexpollen*IndexNursing))))^(1/8);% the daily survival rate of larval stage at age(i=1-3)  
+survivorship(4:9) = (st2*min(1,max(0,1-0.15*(1-Indexpollen*IndexNursing))))^(1/6);% the daily survival rate of larval stage at age(i=1-3)  
 % Larvae are frequently cannibalized in a honeybee colony.The rate of cannibalism depends on the age of the larvae (Schmickl and Crailsheim, 2001),
 % the pollen status of the colony (Schmickl and Crailsheim, 2001)and the nursing quality (Eischen et al., 1982).
 % Therefore, larval mortality includes a time-independent base mortality
 % rate and the cannibalism factor. 0.15--the time-independent base
 % cannibalism mortality rate for larval stage. st2-the time independent
 % base mortality rate of larval stage at any age (4-11 days old)
-survivorship(11:12)=tlp*survivorship(10);
-survivorship(12:26)= st3^(1/15); % the pupal stage is more static. The daily survival rate of pupal stage at any age of 12 to 26. 
-survivorship(26:27)=tpn*survivorship(25);
+survivorship(9:10)=tlp*survivorship(9);
+survivorship(10:21)= st3^(1/12); % the pupal stage is more static. The daily survival rate of pupal stage at any age of 12 to 26. 
+survivorship(21:22)=tpn*survivorship(21);
 %survivorship(27:42)= (1-u)*max(0,(1-(1-st4)*IndexNurseload))^(1/16);% mt4 is the time-independent base mortality of nurse bee stage. 
-survivorship(27:42)= (1-u)*st4^(1/16);
-survivorship(42:43)=tnh*survivorship(41);
+survivorship(22:33)= (1-u)*st4^(1/12);
+survivorship(33:34)=tnh*survivorship(33);
 %It will be varied by the nursing efforts. The higher the nursing load will
 %cause a higher mortality of the nurse bee stage.
 % u is the probability for the accelerated behavior--precocious foraging--the nurse bee stage have a certain probability to jump directly into the forager stage. 
-survivorship(43:48)= st5^(1/6);
-survivorship(48:49)=thf*survivorship(47);
-survivorship(49:agemax,1)= (1-v)*st6^(1/12); % v is reversed probability of the forager bee stage to revert back to in-hive nurse bees. 
+survivorship(34:43)= st5^(1/10);
+survivorship(43:44)=thf*survivorship(43);
+survivorship(44:agemax,1)= (1-v)*st6^(1/17); % v is reversed probability of the forager bee stage to revert back to in-hive nurse bees. 
 theta = rt*ones(agemax-1,1); % theta = probabilities of retarded development at each stage
 A = (diag(1-theta,-1)+diag([0;theta]))*diag(survivorship);% The matrix for storing all the survial rate of bees at each age. 
 B=zeros(agemax);% the precocious development of nurse bees 
-B(49,27:42)=u*ones(1,16);
+B(49,22:33)=u*ones(1,16);
 C=zeros(agemax);
-C(27,49:agemax)= v*ones(1,12); % the retarded development of forager bees 
+C(27,44:agemax)= v*ones(1,12); % the retarded development of forager bees 
 transit=A+B+C; 
 %%%Model pesticide intervention 
 
@@ -90,7 +90,7 @@ Nt1= transit*Nt; % structured dynamics for bees
 
 %% Pollen dynamics-field season 
 foodeaten =  min([Pt,a1*stage(1)+a2*stage(2)+a4*stage(4)+a5*stage(5)]); % pollen consumption of egg, larval, nurse and house bee stage
-scavangedcells = Nt(1:26)'*(1-survivorship(1:26));% The removal of dead brood, hygenic behavior 
+scavangedcells = Nt(1:21)'*(1-survivorship(1:21));% The removal of dead brood, hygenic behavior 
 honeyeaten= min([Ht,h1*stage(1)+h2*stage(2)+h4*stage(4)+h5*stage(5)+h6*stage(6)]); % honey consumption of larval, nurse, house and forager bee stage
 vacated = Nt(26) + foodeaten+honeyeaten;% Empty Cells due to the cleaned food cells and adult emergence 
 
