@@ -17,9 +17,9 @@ h4=0.022; % fraction of a cell's honey consumed by a nurse bee in one day
 %% Stage Structure for field season bees-normal cycle 
 s = zeros(4,agemaxwinter);
 s(1,1:3)=1;
-s(2,4:11)=1;
-s(3,12:26)=1;
-s(4,27:agemaxwinter)=1; %  test to combine the all the adult bees into one stage 
+s(2,4:9)=1;
+s(3,10:21)=1;
+s(4,22:agemaxwinter)=1; %  test to combine the all the adult bees into one stage 
 %1=egg,2=larvae,3=pupae,4=nurse 
 
 %% Abnormal developmental.(precocious+delayed development in bees)
@@ -56,9 +56,9 @@ if stage(4)<=1000
     survivorship(1:agemaxwinter)=0;
 else  
 survivorship (1:3) = max( 0, overall_P* ( 1 - max(0,1-Ht/(0.022*stage(4)))));
-survivorship(4:11) = max(0, overall_P*( 1 - max(0,1- Pt/(a2*stage(2))))); % Larval survival depends on the intrinsic mortality and pollen availibility 
-survivorship (12:26) = max( 0, overall_P* ( 1 - max(0,1-Ht/(0.022*stage(4)))));
-survivorship(27:agemaxwinter)= max( 0, overall_P* ( 1 - max(0,1-Ht/(0.022*stage(4))))); % the survival of the adult bees in the hive depends on the intrisic mortality and the food availibility 
+survivorship(4:9) = max(0, overall_P*( 1 - max(0,1- Pt/(a2*stage(2))))); % Larval survival depends on the intrinsic mortality and pollen availibility 
+survivorship (10:21) = max( 0, overall_P* ( 1 - max(0,1-Ht/(0.022*stage(4)))));
+survivorship(22:agemaxwinter)= max( 0, overall_P* ( 1 - max(0,1-Ht/(0.022*stage(4))))); % the survival of the adult bees in the hive depends on the intrisic mortality and the food availibility 
 end 
 A = (diag(1-theta,-1)+diag([0;theta]))*diag(survivorship);
 transit=A;

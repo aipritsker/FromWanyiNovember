@@ -18,7 +18,7 @@ will allow hive to accumulate honey/pollen.
 egg 1:3 3 days
 larva 4:9 6 days
 pupa 10:21 12 days
-nurse 22: 32 12 days
-house 33:42 10 days
-forager 43: end 22 days
+nurse 22: 33 12 days
+house 34:43 10 days
+forager 44: end 22 days
 
