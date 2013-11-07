@@ -186,7 +186,7 @@ H=zeros(1,tx);
 R=zeros(1,tx);
 
 
-numyears =4;
+numyears =1;
 summerdays = 240;
 yeardays = 360;
 
@@ -243,6 +243,7 @@ for T = 0:(numyears-1)
 		     R(1,t-yeardays*T)= X(4);
  
           end
+          disp(X(3))
      
 %     pollen=P(1,yeardays*T+summerdays);
 %     
@@ -445,6 +446,7 @@ B=Hpop*0.5/1000;
 % A=Ppop;
 % B=Hpop;
 YMatrix2= [A;B]';
+
  Y3=Rpop;
 %Y3=pop(3)*0.1552/1000+pop(4)*0.2189/1000+pop(5)*0.2189/1000+A+B;
 createfigure1(YMatrix1, YMatrix2, Y3); 

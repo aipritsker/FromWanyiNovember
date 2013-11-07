@@ -1,5 +1,5 @@
 function createfigure1(YMatrix1, YMatrix2, Y1)
-
+%Y1 is egg laying curve
 %CREATEFIGURE1(YMATRIX1,YMATRIX2,Y1)
 %  YMATRIX1:  matrix of y data
 %  YMATRIX2:  matrix of y data
@@ -80,7 +80,7 @@ disp(Weight)
 plot(Weight,'Parent',axes3,'Marker','o','Color',[0 0 0]);
 
 % Create ylabel
-ylabel('Weight (kg)');
+ylabel('Weight (kg)- no equip');
 
 print -depsc output.eps
 
