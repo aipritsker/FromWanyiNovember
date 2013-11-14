@@ -58,8 +58,8 @@ survivorship(4:11) = (st2*min(1,max(0,1-0.15*(1-Indexpollen*IndexNursing))))^(1/
 survivorship(11:12)=tlp*survivorship(10);
 survivorship(12:26)= st3^(1/15); % the pupal stage is more static. The daily survival rate of pupal stage at any age of 12 to 26. 
 survivorship(26:27)=tpn*survivorship(25);
-survivorship(27:42)= (1-u)*max(0,(1-(1-st4)*IndexNurseload))^(1/16);% mt4 is the time-independent base mortality of nurse bee stage. 
-%survivorship(27:42)= (1-u)*st4^(1/16);
+%survivorship(27:42)= (1-u)*max(0,(1-(1-st4)*IndexNurseload))^(1/16);% mt4 is the time-independent base mortality of nurse bee stage. 
+survivorship(27:42)= (1-u)*st4^(1/16);
 survivorship(42:43)=tnh*survivorship(41);
 %It will be varied by the nursing efforts. The higher the nursing load will
 %cause a higher mortality of the nurse bee stage.
@@ -98,7 +98,7 @@ if stage(4)+stage(5)+stage(6)<= 0 % the minimum requirement of number of bees ne
  R=0;
  else 
 %R = max(0, min([qh*maxProduction,(stage(4)+stage(5))*FactorBroodNurse,Vt+vacated+scavangedcells]));% The actural egg production per day depends on the queen egg laying potential, the nursing workforce and the available hive space
-R = max(0, min([qh*maxProduction,(stage(4)+stage(5))*FactorBroodNurse]));
+R = max(0, min([qh*maxProduction,(stage(4)+stage(5))*FactorBroodNurse,Vt+vacated+scavangedcells]));
 %R = max(0, min(Vt+vacated+scavangedcells,qh*maxProduction));
 %R  =max(0, min(Vt+vacated+scavangedcells, qh*2000));
 %R= qh*maxProduction; 
